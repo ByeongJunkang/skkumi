@@ -19,13 +19,20 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+
+    private static final String[] PERMIT_API_URL_ARRAY = {
+            "/",
+            "/api/user/**",
+            "/api/v1/auth/**"
+
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers(PERMIT_API_URL_ARRAY)
                 .permitAll()
                 .anyRequest()
                 .authenticated()
