@@ -1,11 +1,17 @@
 package com.example.backend.domain.user;
 
+import com.example.backend.domain.mission.BadgeStatus;
+import com.example.backend.domain.mission.MissionStatus;
+import com.example.backend.domain.mission.Point;
+import com.example.backend.domain.place.Favorite;
+import com.example.backend.domain.place.Pin;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,4 +68,21 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BadgeStatus> badgeStatuses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MissionStatus> missionStatuses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Point> points = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pin> pins = new ArrayList<>();
+
 }

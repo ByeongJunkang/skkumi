@@ -1,7 +1,11 @@
 package com.example.backend.domain.place;
 
+import com.example.backend.domain.mission.MissionStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,9 +22,13 @@ public class Place {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private Double xcoordinate;
 
-    @Column(nullable = false)
     private Double ycoordinate;
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Facility> facilities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pin> pins = new ArrayList<>();
 }
