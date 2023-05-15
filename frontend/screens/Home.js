@@ -33,25 +33,35 @@ export default function Home({ navigation }) {
     longitudeDelta: 0.002,
     latitudeDelta: 0.002,
   });
+  const [locationSubscription, setLocationSubscription] = useState(null);
 
   async function getCurrentLocation() {
     console.log("Getting location...");
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === "granted") {
-        console.log("Permission granted...");
-        const location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-        console.log("Current X and Y coords", latitude, longitude);
-        setLocation({
-          latitude,
-          longitude,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002,
-        });
-      } else {
+      if (status !== "granted") {
         console.log("Location permission denied");
+        return;
       }
+
+      console.log("Permission granted...");
+      const subscription = await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.High,
+          timeInterval: 5000, // update every 5 seconds
+        },
+        (location) => {
+          const { latitude, longitude } = location.coords;
+          setLocation({
+            latitude,
+            longitude,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
+          });
+        }
+      );
+
+      setLocationSubscription(subscription);
     } catch (err) {
       console.warn(err);
     }
@@ -68,11 +78,15 @@ export default function Home({ navigation }) {
     setDesc(info[id].desc);
   }
 
+  if (!location) {
+    return null;
+  }
+
   return (
     <Container>
       <MapView
         style={{ width: "100%", height: "100%" }}
-        initialRegion={location}
+        region={location}
         provider={PROVIDER_GOOGLE}
       >
         <Marker
