@@ -19,17 +19,26 @@
     },
     "android": {
       "config": {
-        "googleMaps" : {
+        "googleMaps": {
           "apiKey": "AIzaSyCBPmH7RFIxn-vfmC-ZeNUEQQyCKZF35p4"
         }
       },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.rabiit.skkumi"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "545f3f08-55b5-4226-8864-00499b87cc92"
+      }
     }
   }
 }
