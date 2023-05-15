@@ -262,6 +262,7 @@ export default function Home({ navigation }) {
                 paddingStart: 10,
                 paddingEnd: 10,
               }}
+              onPress={() => navigation.navigate("Mission")}
             >
               <Text>오늘의 미션</Text>
             </TouchableOpacity>
