@@ -22,10 +22,8 @@ public class Place {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private Double xcoordinate;
 
-    @Column(nullable = false)
     private Double ycoordinate;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)

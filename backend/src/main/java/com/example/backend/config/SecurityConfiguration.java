@@ -23,7 +23,9 @@ public class SecurityConfiguration {
     private static final String[] PERMIT_API_URL_ARRAY = {
             "/",
             "/api/user/**",
-            "/api/v1/auth/**"
+            "/api/v1/auth/**",
+            "api/place/**",
+            "api/pin/**"
 
     };
     @Bean
