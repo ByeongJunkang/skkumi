@@ -23,7 +23,7 @@ const PlaceText = styled.Text`
   font-weight: bold;
 `;
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
   const [infoVisible, setInfoVisible] = useState(false);
   const [place, setPlace] = useState(null);
   const [desc, setDesc] = useState(null);
@@ -34,6 +34,8 @@ export default function Home({ navigation }) {
     latitudeDelta: 0.002,
   });
   const [locationSubscription, setLocationSubscription] = useState(null);
+  const { startActivated } = route.params || {}; // MissionMarthon 페이지에서 넘어온 startActivated params
+  console.log("startActivated from Mission Marathon :", startActivated);
 
   async function getCurrentLocation() {
     console.log("Getting location...");
@@ -48,7 +50,7 @@ export default function Home({ navigation }) {
       const subscription = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 5000, // update every 5 seconds
+          timeInterval: 5000, // update every 1 seconds, 버벅거리면 5 sec으로 변경
         },
         (location) => {
           const { latitude, longitude } = location.coords;
@@ -93,6 +95,8 @@ export default function Home({ navigation }) {
         style={{ width: "100%", height: "100%" }}
         region={location}
         provider={PROVIDER_GOOGLE}
+        showsUserLocation
+        followsUserLocation
       >
         <Marker
           coordinate={{
@@ -102,6 +106,21 @@ export default function Home({ navigation }) {
           pinColor="black"
           onPress={() => SelectInfo(0)}
         />
+
+        {/* {location && (
+          <Marker
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            title="Current Location"
+          >
+            <Image
+              source={require("../assets/image/currentLocation.png")}
+              style={{ height: 35, width: 35 }}
+            />
+          </Marker>
+        )} */}
       </MapView>
       <View
         style={{
