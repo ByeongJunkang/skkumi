@@ -29,7 +29,7 @@ export default function Mission({ navigation }) {
       }}
     >
       <TouchableOpacity>
-        <ProfileImg source={require("../assets/image/profile.png")} />
+        <ProfileImg source={require("../assets/image/mission.png")} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{
@@ -51,7 +51,7 @@ export default function Mission({ navigation }) {
         />
       </TouchableOpacity>
       <View style={{ width: "90%", marginTop: 40 }}>
-        <Text style={{ fontWeight: "bold" }}>오늘 기록</Text>
+        <Text style={{ fontWeight: "bold" }}>미션을 선택하세요</Text>
         <View
           style={{
             width: "100%",
@@ -62,7 +62,7 @@ export default function Mission({ navigation }) {
           }}
         >
           <Shadow distance={5} offset={[3, 3]}>
-            <View
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -72,12 +72,13 @@ export default function Mission({ navigation }) {
                 paddingEnd: 10,
                 borderRadius: 10,
               }}
+              onPress={() => navigation.navigate("MissionMarathon")}
             >
-              <Text>움직인 거리 1.1km</Text>
-            </View>
+              <Text>학교 마라톤</Text>
+            </TouchableOpacity>
           </Shadow>
           <Shadow distance={5} offset={[3, 3]}>
-            <View
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -87,12 +88,13 @@ export default function Mission({ navigation }) {
                 paddingEnd: 10,
                 borderRadius: 10,
               }}
+              onPress={() => navigation.navigate("MissionSpace")}
             >
-              <Text>방문한 장소 3</Text>
-            </View>
+              <Text>공간 방문 인증</Text>
+            </TouchableOpacity>
           </Shadow>
           <Shadow distance={5} offset={[3, 3]}>
-            <View
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -102,9 +104,10 @@ export default function Mission({ navigation }) {
                 paddingEnd: 10,
                 borderRadius: 10,
               }}
+              onPress={() => navigation.navigate("MissionFood")}
             >
-              <Text>오늘의 미션</Text>
-            </View>
+              <Text>친구와 학식 한끼</Text>
+            </TouchableOpacity>
           </Shadow>
         </View>
       </View>
@@ -138,52 +141,6 @@ export default function Mission({ navigation }) {
             <BadgeImg source={require("../assets/image/badge.png")} />
             <Text style={{ marginTop: 10 }}>학식 러버</Text>
           </View>
-        </View>
-      </View>
-      <View style={{ width: "90%", marginTop: 40 }}>
-        <Text style={{ fontWeight: "bold" }}>오늘 기록</Text>
-        <View
-          style={{
-            width: "75%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 15,
-            alignSelf: "center",
-          }}
-        >
-          <Shadow distance={5} offset={[3, 3]}>
-            <TouchableOpacity
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "white",
-                height: 40,
-                width: 120,
-                paddingStart: 10,
-                paddingEnd: 10,
-                borderRadius: 10,
-              }}
-            >
-              <Text>내가 생성한 핀</Text>
-            </TouchableOpacity>
-          </Shadow>
-          <Shadow distance={5} offset={[3, 3]}>
-            <TouchableOpacity
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "white",
-                height: 40,
-                width: 120,
-                paddingStart: 10,
-                paddingEnd: 10,
-                borderRadius: 10,
-              }}
-            >
-              <Text>공감한 핀</Text>
-            </TouchableOpacity>
-          </Shadow>
         </View>
       </View>
     </View>

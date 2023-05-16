@@ -70,6 +70,11 @@ export default function Home({ navigation }) {
   useEffect(() => {
     console.log("Calling getCurrentLocation from useEffect...");
     getCurrentLocation();
+    return () => {
+      if (locationSubscription) {
+        locationSubscription.remove();
+      }
+    };
   }, []);
 
   function SelectInfo(id) {

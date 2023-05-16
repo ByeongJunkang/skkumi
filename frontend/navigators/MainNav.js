@@ -4,6 +4,9 @@ import Start from "../screens/Start";
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
 import Mission from "../screens/Mission";
+import MissionMarathon from "../screens/MissionMarathon";
+import MissionSpace from "../screens/MissionSpace";
+import MissionFood from "../screens/MissionFood";
 
 const Stack = createStackNavigator();
 
@@ -34,6 +37,27 @@ export default function MainNav() {
       <Stack.Screen
         name="Mission"
         component={Mission}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MissionMarathon"
+        component={MissionMarathon}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MissionSpace"
+        component={MissionSpace}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MissionFood"
+        component={MissionFood}
         options={{
           headerShown: false,
         }}
