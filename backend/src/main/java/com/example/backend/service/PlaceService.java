@@ -25,4 +25,8 @@ public class PlaceService {
 
 
     }
+    @Transactional
+    public void delete(Long place_id){
+        placeRepo.deleteById(place_id);
+    }
 }

@@ -4,11 +4,13 @@ package com.example.backend.service;
 import com.example.backend.domain.user.AppUser;
 import com.example.backend.dto.UserDto;
 import com.example.backend.repo.UserRepo;
-import jakarta.transaction.Transactional;
+import org.apache.catalina.security.SecurityUtil;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,12 @@ public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
+//    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+//        this.userRepo = userRepo;
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
+    @Transactional
     public AppUser saveUser(UserDto.SignUpForm signUpForm){
 
         signUpForm.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
@@ -26,5 +34,4 @@ public class UserService {
         AppUser newUser = userRepo.save(appUser);
         return newUser;
     }
-
 }
