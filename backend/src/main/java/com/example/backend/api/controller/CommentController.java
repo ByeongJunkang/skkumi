@@ -2,8 +2,10 @@ package com.example.backend.api.controller;
 
 import com.example.backend.domain.user.AppUser;
 import com.example.backend.dto.CMRespDto;
+import com.example.backend.dto.CommentDto;
 import com.example.backend.dto.PinDto;
 import com.example.backend.dto.PlaceDto;
+import com.example.backend.service.CommentService;
 import com.example.backend.service.PinService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,27 +15,27 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/pin")
+@RequestMapping("/api/comment")
 @RequiredArgsConstructor
-public class PinController {
+public class CommentController {
 
-    private final PinService pinService;
+    private final CommentService commentService;
     @PostMapping("")
     public ResponseEntity<?> register(
-            @Valid @RequestBody PinDto.PostRequest dto,
+            @Valid @RequestBody CommentDto.PostRequest dto,
             @AuthenticationPrincipal AppUser user
 
     ){
         //
-        pinService.write(user, dto);
-        return new ResponseEntity<>(new CMRespDto<>(1, "핀 등록이 완료되었습니다", null), HttpStatus.CREATED);
+        commentService.write(user, dto);
+        return new ResponseEntity<>(new CMRespDto<>(1, "댓글 등록이 완료되었습니다", null), HttpStatus.CREATED);
 
     }
 
-    @DeleteMapping("/{pin_id}")
-    public String deletePin(@PathVariable Long pin_id){
-        pinService.delete(pin_id);
-        return "핀이 삭제되었습니다.";
+    @DeleteMapping("/{comment_id}")
+    public String deletePin(@PathVariable Long comment_id){
+        commentService.delete(comment_id);
+        return "댓글이 삭제되었습니다.";
 
     }
 
