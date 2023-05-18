@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Image,
-  PermissionsAndroid,
-} from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { TouchableOpacity, View, Text, Image } from "react-native";
+import MapView, {
+  Marker,
+  AnimatedRegion,
+  Polyline,
+  MarkerAnimated,
+} from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps/lib/ProviderConstants";
 import { Shadow } from "react-native-shadow-2";
 import { info } from "../info";
 import * as Location from "expo-location";
+import haversine from "haversine";
 
 const Container = styled.View`
   flex: 1;
@@ -34,8 +34,25 @@ export default function Home({ navigation, route }) {
     latitudeDelta: 0.002,
   });
   const [locationSubscription, setLocationSubscription] = useState(null);
+
+  const [distanceStates, setDistanceStates] = useState({
+    routeCoordinates: [],
+    distanceTravelled: 0,
+    prevLatLng: {},
+    coordinate: new AnimatedRegion({
+      latitude: 37.293787,
+      longitude: 126.974317,
+    }),
+  });
+
   const { startActivated } = route.params || {}; // MissionMarthon 페이지에서 넘어온 startActivated params
   console.log("startActivated from Mission Marathon :", startActivated);
+  //   console.log(
+  //     "Route Length",
+  //     distanceStates.routeCoordinates.length,
+  //     "Last Route :",
+  //     distanceStates.routeCoordinates[distanceStates.routeCoordinates.length - 1]
+  //   );
 
   async function getCurrentLocation() {
     console.log("Getting location...");
@@ -50,16 +67,36 @@ export default function Home({ navigation, route }) {
       const subscription = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 5000, // update every 1 seconds, 버벅거리면 5 sec으로 변경
+          timeInterval: 300, // update every 0.3 seconds, 버벅거리면 5 sec으로 변경
         },
         (location) => {
           const { latitude, longitude } = location.coords;
+          const newCoordinate = {
+            latitude,
+            longitude,
+          };
           setLocation({
             latitude,
             longitude,
             latitudeDelta: 0.002,
             longitudeDelta: 0.002,
           });
+          setDistanceStates({
+            routeCoordinates: distanceStates.routeCoordinates.concat([
+              newCoordinate,
+            ]),
+            distanceTravelled:
+              distanceStates.distanceTravelled + calcDistance(newCoordinate),
+            prevLatLng: newCoordinate,
+          });
+
+          console.log(
+            "prevLatLng : ",
+            distanceStates.prevLatLng,
+            " newCoord : ",
+            newCoordinate
+          );
+          // if Mission Marthon has Started => activate markUserRoute()
         }
       );
 
@@ -67,6 +104,13 @@ export default function Home({ navigation, route }) {
     } catch (err) {
       console.warn(err);
     }
+  }
+
+  //거리 계산
+  function calcDistance(newLatLng) {
+    const { prevLatLng } = distanceStates;
+    console.log("Haversine Calculating,,, ");
+    return haversine(prevLatLng, newLatLng) || 0;
   }
 
   useEffect(() => {
@@ -97,7 +141,24 @@ export default function Home({ navigation, route }) {
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
+        loadingEnabled
       >
+        {/* routeCoordinates array를 통해 Polyline을 그립니다 */}
+        <Polyline
+          coordinates={distanceStates.routeCoordinates}
+          strokeWidth={10}
+        />
+
+        {/* <Marker.Animated
+          ref={(marker) => {
+            this.marker = marker;
+          }}
+          coordinate={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+          }}
+        /> */}
+
         <Marker
           coordinate={{
             latitude: 37.293948,
