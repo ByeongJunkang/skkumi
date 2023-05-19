@@ -24,9 +24,14 @@ public class SecurityConfiguration {
             "/",
             "/api/user/**",
             "/api/v1/auth/**",
-            "api/place/**",
-            "api/pin/**",
-            "api/comment/**"
+            "/api/place/**",
+            "/api/pin/**",
+
+            "/api/badge/**",
+            "/vision/**",
+
+            "/api/comment/**"
+
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{

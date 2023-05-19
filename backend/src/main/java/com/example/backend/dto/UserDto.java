@@ -34,7 +34,6 @@ public class UserDto {
         private String email;
 
 
-
         public AppUser toEntity() {
             return AppUser.builder()
                     .nickname(this.nickname)
@@ -44,6 +43,23 @@ public class UserDto {
                     .role(Role.USER)
                     .build();
         }
+    }
+
+
+    @Getter
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    public static class Response {
+        private Long id;
+        private String nickname;
+        private String username;
+
+
+        public Response(AppUser user) {
+            this.id = user.getId();
+            this.nickname = user.getNickname();
+            this.username = user.getUsername();
+        }
+
     }
 
 }

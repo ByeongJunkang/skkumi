@@ -54,9 +54,21 @@ public class UserController {
         return ResponseEntity.ok("hi");
     }
 
+
+
+    @GetMapping("/me")
+    public ResponseEntity<?> myInfo(@AuthenticationPrincipal AppUser user){
+        UserDto.Response response = userService.getUser(user.getId());
+        return new ResponseEntity<>(new CMRespDto<>(1, "내 정보를 받아왔습니다", response), HttpStatus.OK);
+    }
+
+
+
+
     @DeleteMapping("/username/{user_id}")
     public String deleteUser(@PathVariable Long user_id) {
         userRepo.deleteById(user_id);
         return "유저가 삭제되었습니다.";
     }
+
 }
