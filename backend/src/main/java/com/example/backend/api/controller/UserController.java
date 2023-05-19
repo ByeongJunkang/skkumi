@@ -6,11 +6,13 @@ import com.example.backend.domain.user.AppUser;
 import com.example.backend.dto.CMRespDto;
 import com.example.backend.dto.UserDto;
 import com.example.backend.service.UserService;
+import com.example.backend.repo.UserRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +22,9 @@ public class UserController {
 
     private final AuthenticationService service;
     private final UserService userService;
+    private final UserRepo userRepo;
+
+    private final PasswordEncoder passwordEncoder;
 
 
 
@@ -50,6 +55,7 @@ public class UserController {
     }
 
 
+
     @GetMapping("/me")
     public ResponseEntity<?> myInfo(@AuthenticationPrincipal AppUser user){
         UserDto.Response response = userService.getUser(user.getId());
@@ -57,5 +63,12 @@ public class UserController {
     }
 
 
+
+
+    @DeleteMapping("/username/{user_id}")
+    public String deleteUser(@PathVariable Long user_id) {
+        userRepo.deleteById(user_id);
+        return "유저가 삭제되었습니다.";
+    }
 
 }

@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/pin")
@@ -32,6 +34,7 @@ public class PinController {
         return new ResponseEntity<>(new CMRespDto<>(1, "핀 등록이 완료되었습니다", null), HttpStatus.CREATED);
 
     }
+
 
     @GetMapping("")
     public ResponseEntity<?> getMyPin(@AuthenticationPrincipal AppUser user){
@@ -58,4 +61,13 @@ public class PinController {
         List<FavoriteDto.Response> responses = pinService.getMyFavoritePin(user);
         return new ResponseEntity<>(new CMRespDto<>(1,"내가 공감한 핀 조회 완료",responses),HttpStatus.OK);
     }
+
+    @DeleteMapping("/{pin_id}")
+    public String deletePin(@PathVariable Long pin_id){
+        pinService.delete(pin_id);
+        return "핀이 삭제되었습니다.";
+
+    }
+
+
 }

@@ -24,10 +24,13 @@ public class SecurityConfiguration {
             "/",
             "/api/user/**",
             "/api/v1/auth/**",
-            "api/place/**",
-            "api/pin/**",
-            "api/badge/**",
-            "vision/**"
+            "/api/place/**",
+            "/api/pin/**",
+
+            "/api/badge/**",
+            "/vision/**",
+
+            "/api/comment/**"
 
     };
     @Bean

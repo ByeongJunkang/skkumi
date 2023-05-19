@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface PinRepo extends JpaRepository<Pin,Long> {
 
+
     List<Pin> findByUser(AppUser user);
+
 }
