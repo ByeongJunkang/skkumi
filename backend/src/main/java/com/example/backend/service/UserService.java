@@ -19,12 +19,20 @@ public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public AppUser saveUser(UserDto.SignUpForm signUpForm){
 
         signUpForm.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         AppUser appUser = signUpForm.toEntity();
         AppUser newUser = userRepo.save(appUser);
         return newUser;
+    }
+
+    @Transactional
+    public UserDto.Response getUser(Long userId){
+
+        AppUser user = userRepo.findById(userId).orElseThrow();
+        return new UserDto.Response(user);
     }
 
 }

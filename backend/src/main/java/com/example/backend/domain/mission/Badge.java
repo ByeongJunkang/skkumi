@@ -28,4 +28,7 @@ public class Badge {
     @OneToMany(mappedBy = "badge", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BadgeStatus> badgeStatuses = new ArrayList<>();
 
+    //뱃지 이미지
+    private String url;
+
 }

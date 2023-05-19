@@ -26,6 +26,9 @@ public class Place {
 
     private Double ycoordinate;
 
+    //장소 이미지
+    private String url;
+
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Facility> facilities = new ArrayList<>();
 

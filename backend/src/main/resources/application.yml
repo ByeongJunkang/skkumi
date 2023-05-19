@@ -15,7 +15,11 @@ spring:
     url: jdbc:mysql://localhost:3306/skkumi
     username: root
     password: 1234
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+
+

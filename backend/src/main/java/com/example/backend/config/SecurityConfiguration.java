@@ -25,7 +25,9 @@ public class SecurityConfiguration {
             "/api/user/**",
             "/api/v1/auth/**",
             "api/place/**",
-            "api/pin/**"
+            "api/pin/**",
+            "api/badge/**",
+            "vision/**"
 
     };
     @Bean
