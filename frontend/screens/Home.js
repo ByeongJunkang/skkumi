@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import { TouchableOpacity, View, Text, Image, ScrollView } from "react-native";
 import MapView, {
   Marker,
   AnimatedRegion,
@@ -14,13 +14,13 @@ import * as Location from "expo-location";
 import haversine from "haversine";
 
 const Container = styled.View`
-  flex: 1;
-  align-items: center;
+	flex: 1;
+	align-items: center;
 `;
 
 const PlaceText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
+	font-size: 16px;
+	font-weight: bold;
 `;
 
 export default function Home({ navigation, route }) {
@@ -29,19 +29,29 @@ export default function Home({ navigation, route }) {
 	const [place, setPlace] = useState(null);
 	const [desc, setDesc] = useState(null);
 	const [photo, setPhoto] = useState(null);
+	const [fac, setFac] = useState(null)
 	const [location, setLocation] = useState({
 		latitude: 37.293787,
 		longitude: 126.974317,
 		longitudeDelta: 0.002,
 		latitudeDelta: 0.002,
 	});
-
 	function SelectInfo(id) {
 		setInfoVisible(!infoVisible);
-		setPlace(info[id].place);
-		setDesc(info[id].desc);
-		setPhoto(info[id].photo);
+		setPlace(info[id]?.place);
+		setDesc(info[id]?.desc);
+		setPhoto(info[id]?.photo);
+		setFac(info[id]?.fac)
 	}
+
+	const { startActivated } = route?.params || {}; // MissionMarthon 페이지에서 넘어온 startActivated params
+	console.log("startActivated from Mission Marathon :", startActivated);
+	//   console.log(
+	//     "Route Length",
+	//     distanceStates.routeCoordinates.length,
+	//     "Last Route :",
+	//     distanceStates.routeCoordinates[distanceStates.routeCoordinates.length - 1]
+	//   );
 
 	const [locationSubscription, setLocationSubscription] = useState(null);
 	const [distanceStates, setDistanceStates] = useState({
@@ -53,15 +63,6 @@ export default function Home({ navigation, route }) {
 		longitude: 126.974317,
 		}),
 	});
-
-	const { startActivated } = route?.params || {}; // MissionMarthon 페이지에서 넘어온 startActivated params
-	console.log("startActivated from Mission Marathon :", startActivated);
-	//   console.log(
-	//     "Route Length",
-	//     distanceStates.routeCoordinates.length,
-	//     "Last Route :",
-	//     distanceStates.routeCoordinates[distanceStates.routeCoordinates.length - 1]
-	//   );
 
 	async function getCurrentLocation() {
 		console.log("Getting location...");
@@ -185,13 +186,53 @@ export default function Home({ navigation, route }) {
 						region={location}
 						provider={PROVIDER_GOOGLE}
 					>
-						<Marker
+						<Marker //디도
 							coordinate={{
 								latitude: 37.293948,
 								longitude: 126.974881,
 							}}
 							pinColor="black"
 							onPress={() => SelectInfo(0)}
+						/>
+						<Marker //제2공
+							coordinate={{
+								latitude: 37.295126,
+								longitude: 126.976885,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(1)}
+						/>
+						<Marker //반관
+							coordinate={{
+								latitude: 37.291716,
+								longitude: 126.977728,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(2)}
+						/>
+						<Marker //제1공
+							coordinate={{
+								latitude: 37.293644,
+								longitude: 126.976389,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(3)}
+						/>
+						<Marker //산학관
+							coordinate={{
+								latitude: 37.296008,
+								longitude: 126.975870,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(4)}
+						/>
+						<Marker //자연과학관
+							coordinate={{
+								latitude: 37.295805,
+								longitude: 126.973812,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(4)}
 						/>
 					</MapView>
 				)
@@ -266,12 +307,12 @@ export default function Home({ navigation, route }) {
 			</View>
 			{infoVisible ? (
 				<View
-				style={{
-					position: "absolute",
-					width: "100%",
-					height: "50%",
-					bottom: "0%",
-				}}
+					style={{
+						position: "absolute",
+						width: "100%",
+						height: "50%",
+						bottom: "0%",
+					}}
 				>
 					<Shadow
 						distance={8}
@@ -281,58 +322,69 @@ export default function Home({ navigation, route }) {
 						height: "100%",
 						}}
 					>
-						<View
-						style={{
-							width: "100%",
-							height: "100%",
-							backgroundColor: "white",
-							borderTopStartRadius: 20,
-							borderTopEndRadius: 20,
-							alignItems: "center",
-						}}
-						>
-						<View
+						<ScrollView
 							style={{
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "space-between",
-							width: "90%",
-							marginTop: 20,
+								width: "100%",
+								height: "100%",
+								backgroundColor: "white",
+								borderTopStartRadius: 20,
+								borderTopEndRadius: 20,
 							}}
-						>
-							<PlaceText>{place}</PlaceText>
-							<TouchableOpacity
-							style={{
-								alignItems: "center",
-								justifyContent: "center",
-								backgroundColor: "lightgray",
-								paddingStart: 15,
-								paddingEnd: 15,
-								paddingTop: 5,
-								paddingBottom: 5,
-								borderRadius: 10,
-							}}
-							>
-							<Image
-								source={require("../assets/image/vector.png")}
+						>	
+							<View
 								style={{
-								width: 18,
-								height: 25,
+									width: "100%",
+									height: "100%",
+									alignItems: "center",
 								}}
-							/>
-							</TouchableOpacity>
-						</View>
-						<Image 
-							source={{uri: photo}}
-							style={{
-								width: 150,
-								height: 150,
-								borderRadius: 15,
-								marginTop: 20
-							}}
-						/>
-						<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
-						</View>
+							>
+								<View
+									style={{
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "space-between",
+									width: "90%",
+									marginTop: 20,
+									}}
+								>
+									<PlaceText>{place}</PlaceText>
+									<TouchableOpacity
+									style={{
+										alignItems: "center",
+										justifyContent: "center",
+										backgroundColor: "lightgray",
+										paddingStart: 15,
+										paddingEnd: 15,
+										paddingTop: 5,
+										paddingBottom: 5,
+										borderRadius: 10,
+									}}
+									>
+									<Image
+										source={require("../assets/image/vector.png")}
+										style={{
+										width: 18,
+										height: 25,
+										}}
+									/>
+									</TouchableOpacity>
+								</View>
+								<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
+								<Image 
+									source={{uri: photo}}
+									style={{
+										width: 300,
+										height: 180,
+										borderRadius: 15,
+										marginTop: 20
+									}}
+								/>
+								<View style={{width: "90%", marginTop: 30, marginBottom: 15}}>
+									<PlaceText style={{marginBottom: 15}}>편의 시설 정보</PlaceText>
+									<Text>{fac}</Text>
+								</View>
+							</View>
+						</ScrollView>
 					</Shadow>
 				</View>
 			) : (
