@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
@@ -19,6 +19,13 @@ const BadgeImg = styled.Image`
 `;
 
 export default function Mission({ navigation }) {
+  const [startActivated, setStartActivated] = useState(false);
+
+  const handleStart = () => {
+    setStartActivated(true);
+    navigation.navigate("Home", { startActivated: true }); // Pass the value as a parameter
+  };
+
   return (
     <View
       style={{
@@ -41,6 +48,64 @@ export default function Mission({ navigation }) {
       >
         <Text>MARATHON MISSION WIP</Text>
       </TouchableOpacity>
+      <View style={{ width: "90%", marginTop: 40 }}>
+        <View
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 15,
+          }}
+        >
+          <Shadow distance={5} offset={[3, 3]}>
+            <TouchableOpacity
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+                height: 40,
+                paddingStart: 10,
+                paddingEnd: 10,
+                borderRadius: 10,
+              }}
+              onPress={() => handleStart()}
+            >
+              <Text>START</Text>
+            </TouchableOpacity>
+          </Shadow>
+          <Shadow distance={5} offset={[3, 3]}>
+            <TouchableOpacity
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+                height: 40,
+                paddingStart: 10,
+                paddingEnd: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Text>PAUSE</Text>
+            </TouchableOpacity>
+          </Shadow>
+          <Shadow distance={5} offset={[3, 3]}>
+            <TouchableOpacity
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+                height: 40,
+                paddingStart: 10,
+                paddingEnd: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Text>STOP</Text>
+            </TouchableOpacity>
+          </Shadow>
+        </View>
+      </View>
     </View>
   );
 }
