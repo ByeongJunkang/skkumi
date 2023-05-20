@@ -29,7 +29,9 @@ export default function Home({ navigation, route }) {
 	const [place, setPlace] = useState(null);
 	const [desc, setDesc] = useState(null);
 	const [photo, setPhoto] = useState(null);
-	const [fac, setFac] = useState(null)
+	const [fac, setFac] = useState(null);
+	const [isBoard, setIsBoard] = useState(null);
+
 	const [location, setLocation] = useState({
 		latitude: 37.293787,
 		longitude: 126.974317,
@@ -226,13 +228,45 @@ export default function Home({ navigation, route }) {
 							pinColor="black"
 							onPress={() => SelectInfo(4)}
 						/>
-						<Marker //자연과학관
+						<Marker //생명공학관
 							coordinate={{
 								latitude: 37.295805,
 								longitude: 126.973812,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(4)}
+							onPress={() => SelectInfo(5)}
+						/>
+						<Marker //의학관
+							coordinate={{
+								latitude: 37.292201,
+								longitude: 126.973289,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(6)}
+						/>
+						<Marker //N센터
+							coordinate={{
+								latitude: 37.291709,
+								longitude: 126.975564,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(7)}
+						/>
+						<Marker //약학관
+							coordinate={{
+								latitude: 37.291964,
+								longitude: 126.976615,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(8)}
+						/>
+						<Marker //학생회관
+							coordinate={{
+								latitude: 37.294160,
+								longitude: 126.973594,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(9)}
 						/>
 					</MapView>
 				)
@@ -310,7 +344,7 @@ export default function Home({ navigation, route }) {
 					style={{
 						position: "absolute",
 						width: "100%",
-						height: "50%",
+						height: "60%",
 						bottom: "0%",
 					}}
 				>
@@ -331,59 +365,75 @@ export default function Home({ navigation, route }) {
 								borderTopEndRadius: 20,
 							}}
 						>	
-							<View
-								style={{
-									width: "100%",
-									height: "100%",
-									alignItems: "center",
-								}}
-							>
-								<View
-									style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									width: "90%",
-									marginTop: 20,
-									}}
-								>
-									<PlaceText>{place}</PlaceText>
-									<TouchableOpacity
-									style={{
-										alignItems: "center",
-										justifyContent: "center",
-										backgroundColor: "lightgray",
-										paddingStart: 15,
-										paddingEnd: 15,
-										paddingTop: 5,
-										paddingBottom: 5,
-										borderRadius: 10,
-									}}
-									>
-									<Image
-										source={require("../assets/image/vector.png")}
+							{
+								isBoard ?
+								(
+									<View
 										style={{
-										width: 18,
-										height: 25,
+											width: "100%",
+											height: "100%",
+											alignItems: "center",
 										}}
-									/>
-									</TouchableOpacity>
-								</View>
-								<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
-								<Image 
-									source={{uri: photo}}
-									style={{
-										width: 300,
-										height: 180,
-										borderRadius: 15,
-										marginTop: 20
-									}}
-								/>
-								<View style={{width: "90%", marginTop: 30, marginBottom: 15}}>
-									<PlaceText style={{marginBottom: 15}}>편의 시설 정보</PlaceText>
-									<Text>{fac}</Text>
-								</View>
-							</View>
+									>
+										<View
+											style={{
+											display: "flex",
+											flexDirection: "row",
+											justifyContent: "space-between",
+											width: "90%",
+											marginTop: 20,
+											}}
+										>
+											<PlaceText>{place}</PlaceText>
+											<TouchableOpacity
+											style={{
+												alignItems: "center",
+												justifyContent: "center",
+												backgroundColor: "lightgray",
+												paddingStart: 15,
+												paddingEnd: 15,
+												paddingTop: 5,
+												paddingBottom: 5,
+												borderRadius: 10,
+											}}
+											>
+											<Image
+												source={require("../assets/image/vector.png")}
+												style={{
+												width: 18,
+												height: 25,
+												}}
+											/>
+											</TouchableOpacity>
+										</View>
+										<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
+										<Image 
+											source={{uri: photo}}
+											style={{
+												width: 300,
+												height: 180,
+												borderRadius: 15,
+												marginTop: 20
+											}}
+										/>
+										<View style={{width: "90%", marginTop: 30, marginBottom: 15}}>
+											<PlaceText style={{marginBottom: 15}}>편의 시설 정보</PlaceText>
+											<Text>{fac}</Text>
+										</View>
+									</View>
+								) : (
+									<View
+										style={{
+											width: "100%",
+											height: "100%",
+											alignItems: "center",
+										}}
+									>
+										
+									</View>
+								)
+							}
+							
 						</ScrollView>
 					</Shadow>
 				</View>
