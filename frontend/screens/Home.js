@@ -40,7 +40,7 @@ export default function Home({ navigation, route }) {
 		longitudeDelta: 0.002,
 		latitudeDelta: 0.002,
 	});
-	function SelectInfo(id) {
+	function selectInfo(id) {
 		setInfoVisible(!infoVisible);
 		setPlace(info[id]?.place);
 		setDesc(info[id]?.desc);
@@ -216,7 +216,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.974881,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(0)}
+							onPress={() => {
+								selectInfo(0)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //제2공
 							coordinate={{
@@ -224,7 +227,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.976885,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(1)}
+							onPress={() => {
+								selectInfo(1)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //반관
 							coordinate={{
@@ -232,7 +238,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.977728,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(2)}
+							onPress={() => {
+								selectInfo(2)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //제1공
 							coordinate={{
@@ -240,7 +249,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.976389,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(3)}
+							onPress={() => {
+								selectInfo(3)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //산학관
 							coordinate={{
@@ -248,7 +260,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.975870,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(4)}
+							onPress={() => {
+								selectInfo(4)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //생명공학관
 							coordinate={{
@@ -256,7 +271,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.973812,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(5)}
+							onPress={() => {
+								selectInfo(5)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //의학관
 							coordinate={{
@@ -264,7 +282,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.973289,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(6)}
+							onPress={() => {
+								selectInfo(6)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //N센터
 							coordinate={{
@@ -272,7 +293,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.975564,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(7)}
+							onPress={() => {
+								selectInfo(7)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //약학관
 							coordinate={{
@@ -280,7 +304,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.976615,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(8)}
+							onPress={() => {
+								selectInfo(8)
+								setIsBoard(false)
+							}}
 						/>
 						<Marker //학생회관
 							coordinate={{
@@ -288,7 +315,10 @@ export default function Home({ navigation, route }) {
 								longitude: 126.973594,
 							}}
 							pinColor="black"
-							onPress={() => SelectInfo(9)}
+							onPress={() => {
+								selectInfo(9)
+								setIsBoard(false)
+							}}
 						/>
 					</MapView>
 				)
@@ -318,6 +348,8 @@ export default function Home({ navigation, route }) {
 					}}
 					onPress={()=>{
 						setIsMap(!isMap)
+						setInfoVisible(false)
+						setIsBoard(false)
 						setLocation({
 							latitude: 37.293787,
 							longitude: 126.974317,
@@ -346,19 +378,19 @@ export default function Home({ navigation, route }) {
 				</TouchableOpacity>
 				</Shadow>
 				<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-				onPress={() => navigation.navigate("Profile")}
-				>
-				<Image
-					source={require("../assets/image/profile.png")}
 					style={{
-					width: 40,
-					height: 40,
+						alignItems: "center",
+						justifyContent: "center",
 					}}
-				/>
+					onPress={() => navigation.navigate("Profile")}
+				>
+					<Image
+						source={require("../assets/image/profile.png")}
+						style={{
+						width: 40,
+						height: 40,
+						}}
+					/>
 				</TouchableOpacity>
 			</View>
 			{infoVisible ? (
@@ -497,6 +529,21 @@ export default function Home({ navigation, route }) {
 											width: "100%"
 										}}
 									/>
+									<TouchableOpacity
+										style={{
+											position: "absolute",
+											bottom: 10,
+											right: 10,
+											backgroundColor: "black",
+											borderRadius: 100,
+											width: 50,
+											height: 50,
+											alignItems: "center",
+											justifyContent: "center"
+										}}
+									>
+										<Text style={{color: "white", fontSize: 40, marginTop: -5}}>+</Text>
+									</TouchableOpacity>
 								</View>
 							)
 						}
@@ -561,6 +608,34 @@ export default function Home({ navigation, route }) {
 				</Shadow>
 				</View>
 			)}
+			{
+				isMap ? (
+					null
+				):(
+					<View
+						style={{
+							position: "absolute",
+							bottom: 80,
+							right: 20,
+						}}
+					>	
+						<Text style={{textAlign: "center", marginBottom: 4}}>핀 추가</Text>
+						<TouchableOpacity
+							style={{
+								backgroundColor: "black",
+								borderRadius: 100,
+								width: 50,
+								height: 50,
+								alignItems: "center",
+								justifyContent: "center"
+							}}
+						>
+							<Text style={{color: "white", fontSize: 40, marginTop: -5}}>+</Text>
+						</TouchableOpacity>
+					</View>
+					
+				)
+			}
 		</Container>
 	);
 }
