@@ -24,10 +24,11 @@ const PlaceText = styled.Text`
 `;
 
 export default function Home({ navigation, route }) {
-	const [map, setMap] = useState(true)
+	const [isMap, setIsMap] = useState(true)
 	const [infoVisible, setInfoVisible] = useState(false);
 	const [place, setPlace] = useState(null);
 	const [desc, setDesc] = useState(null);
+	const [photo, setPhoto] = useState(null);
 	const [location, setLocation] = useState({
 		latitude: 37.293787,
 		longitude: 126.974317,
@@ -39,6 +40,7 @@ export default function Home({ navigation, route }) {
 		setInfoVisible(!infoVisible);
 		setPlace(info[id].place);
 		setDesc(info[id].desc);
+		setPhoto(info[id].photo);
 	}
 
 	const [locationSubscription, setLocationSubscription] = useState(null);
@@ -136,54 +138,65 @@ export default function Home({ navigation, route }) {
 
 	return (
 		<Container>
-			<MapView
-				style={{ width: "100%", height: "100%" }}
-				region={location}
-				provider={PROVIDER_GOOGLE}
-				showsUserLocation
-				followsUserLocation
-				loadingEnabled
-			>
-				{/* routeCoordinates array를 통해 Polyline을 그립니다 */}
-				<Polyline
-				coordinates={distanceStates.routeCoordinates}
-				strokeWidth={10}
-				/>
+			{
+				isMap ? 
+				(
+					<MapView
+						style={{ width: "100%", height: "100%" }}
+						region={location}
+						provider={PROVIDER_GOOGLE}
+						showsUserLocation
+						followsUserLocation
+						loadingEnabled
+					>
+						{/* routeCoordinates array를 통해 Polyline을 그립니다 */}
+						<Polyline
+						coordinates={distanceStates.routeCoordinates}
+						strokeWidth={10}
+						/>
+						{/* <Marker.Animated
+						ref={(marker) => {
+							this.marker = marker;
+						}}
+						coordinate={{
+							latitude: location.latitude,
+							longitude: location.longitude,
+						}}
+						/> */}
 
-				{/* <Marker.Animated
-				ref={(marker) => {
-					this.marker = marker;
-				}}
-				coordinate={{
-					latitude: location.latitude,
-					longitude: location.longitude,
-				}}
-				/> */}
-
-				<Marker
-				coordinate={{
-					latitude: 37.293948,
-					longitude: 126.974881,
-				}}
-				pinColor="black"
-				onPress={() => SelectInfo(0)}
-				/>
-
-				{/* {location && (
-				<Marker
-					coordinate={{
-					latitude: location.latitude,
-					longitude: location.longitude,
-					}}
-					title="Current Location"
-				>
-					<Image
-					source={require("../assets/image/currentLocation.png")}
-					style={{ height: 35, width: 35 }}
-					/>
-				</Marker>
-				)} */}
-			</MapView>
+						{/* {location && (
+						<Marker
+							coordinate={{
+							latitude: location.latitude,
+							longitude: location.longitude,
+							}}
+							title="Current Location"
+						>
+							<Image
+							source={require("../assets/image/currentLocation.png")}
+							style={{ height: 35, width: 35 }}
+							/>
+						</Marker>
+						)} */}
+					</MapView>
+				):(	
+					<MapView
+						style={{ width: "100%", height: "100%" }}
+						region={location}
+						provider={PROVIDER_GOOGLE}
+					>
+						<Marker
+							coordinate={{
+								latitude: 37.293948,
+								longitude: 126.974881,
+							}}
+							pinColor="black"
+							onPress={() => SelectInfo(0)}
+						/>
+					</MapView>
+				)
+			}
+			
 			<View
 				style={{
 				position: "absolute",
@@ -206,8 +219,25 @@ export default function Home({ navigation, route }) {
 					height: 45,
 					borderRadius: 15,
 					}}
-				>
-					<Text>맵 모드</Text>
+					onPress={()=>{
+						setIsMap(!isMap)
+						setLocation({
+							latitude: 37.293787,
+							longitude: 126.974317,
+							longitudeDelta: 0.002,
+							latitudeDelta: 0.002
+						})
+					}}
+				>	
+					{
+						isMap ? 
+						(
+							<Text>맵 모드</Text>
+						):(
+							<Text>핀 모드</Text>
+						)
+					}
+					
 					<Image
 					source={require("../assets/image/map.png")}
 					style={{
@@ -239,62 +269,71 @@ export default function Home({ navigation, route }) {
 				style={{
 					position: "absolute",
 					width: "100%",
-					height: "20%",
+					height: "50%",
 					bottom: "0%",
 				}}
 				>
-				<Shadow
-					distance={8}
-					offset={[0, -2]}
-					style={{
-					width: "100%",
-					height: "100%",
-					}}
-				>
-					<View
-					style={{
+					<Shadow
+						distance={8}
+						offset={[0, -2]}
+						style={{
 						width: "100%",
 						height: "100%",
-						backgroundColor: "white",
-						borderTopStartRadius: 20,
-						borderTopEndRadius: 20,
-						alignItems: "center",
-					}}
-					>
-					<View
-						style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between",
-						width: "90%",
-						marginTop: 20,
 						}}
 					>
-						<PlaceText>{place}</PlaceText>
-						<TouchableOpacity
+						<View
 						style={{
+							width: "100%",
+							height: "100%",
+							backgroundColor: "white",
+							borderTopStartRadius: 20,
+							borderTopEndRadius: 20,
 							alignItems: "center",
-							justifyContent: "center",
-							backgroundColor: "lightgray",
-							paddingStart: 15,
-							paddingEnd: 15,
-							paddingTop: 5,
-							paddingBottom: 5,
-							borderRadius: 10,
 						}}
 						>
-						<Image
-							source={require("../assets/image/vector.png")}
+						<View
 							style={{
-							width: 18,
-							height: 25,
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							width: "90%",
+							marginTop: 20,
+							}}
+						>
+							<PlaceText>{place}</PlaceText>
+							<TouchableOpacity
+							style={{
+								alignItems: "center",
+								justifyContent: "center",
+								backgroundColor: "lightgray",
+								paddingStart: 15,
+								paddingEnd: 15,
+								paddingTop: 5,
+								paddingBottom: 5,
+								borderRadius: 10,
+							}}
+							>
+							<Image
+								source={require("../assets/image/vector.png")}
+								style={{
+								width: 18,
+								height: 25,
+								}}
+							/>
+							</TouchableOpacity>
+						</View>
+						<Image 
+							source={{uri: photo}}
+							style={{
+								width: 150,
+								height: 150,
+								borderRadius: 15,
+								marginTop: 20
 							}}
 						/>
-						</TouchableOpacity>
-					</View>
-					<Text style={{ width: "90%", marginTop: 15 }}>{desc}</Text>
-					</View>
-				</Shadow>
+						<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
+						</View>
+					</Shadow>
 				</View>
 			) : (
 				<View
