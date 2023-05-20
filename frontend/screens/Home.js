@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity, View, Text, Image, ScrollView } from "react-native";
+import { TouchableOpacity, View, Text, Image, ScrollView, FlatList } from "react-native";
 import MapView, {
   Marker,
   AnimatedRegion,
@@ -10,6 +10,7 @@ import MapView, {
 import { PROVIDER_GOOGLE } from "react-native-maps/lib/ProviderConstants";
 import { Shadow } from "react-native-shadow-2";
 import { info } from "../info";
+import { post } from "../post";
 import * as Location from "expo-location";
 import haversine from "haversine";
 
@@ -25,12 +26,13 @@ const PlaceText = styled.Text`
 
 export default function Home({ navigation, route }) {
 	const [isMap, setIsMap] = useState(true)
+	const [isBoard, setIsBoard] = useState(false);
 	const [infoVisible, setInfoVisible] = useState(false);
 	const [place, setPlace] = useState(null);
 	const [desc, setDesc] = useState(null);
 	const [photo, setPhoto] = useState(null);
 	const [fac, setFac] = useState(null);
-	const [isBoard, setIsBoard] = useState(null);
+	
 
 	const [location, setLocation] = useState({
 		latitude: 37.293787,
@@ -44,6 +46,26 @@ export default function Home({ navigation, route }) {
 		setDesc(info[id]?.desc);
 		setPhoto(info[id]?.photo);
 		setFac(info[id]?.fac)
+	}
+	const renderPost = ({ item: post }) => {
+		return(
+			<TouchableOpacity 
+				style={{
+					alignSelf: "center",
+					width: "85%",
+					height: 60,
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "space-between",
+					alignItems: "center",
+					borderBottomColor: "gray",
+					borderBottomWidth: 1
+				}}
+			>
+				<Text>{post.title}</Text>
+				<Text>{post.time}</Text>
+			</TouchableOpacity>
+		)
 	}
 
 	const { startActivated } = route?.params || {}; // MissionMarthon 페이지에서 넘어온 startActivated params
@@ -355,19 +377,19 @@ export default function Home({ navigation, route }) {
 						width: "100%",
 						height: "100%",
 						}}
-					>
-						<ScrollView
-							style={{
-								width: "100%",
-								height: "100%",
-								backgroundColor: "white",
-								borderTopStartRadius: 20,
-								borderTopEndRadius: 20,
-							}}
-						>	
-							{
-								isBoard ?
-								(
+					>	
+						{
+							!isBoard ? 
+							(
+								<ScrollView
+									style={{
+										width: "100%",
+										height: "100%",
+										backgroundColor: "white",
+										borderTopStartRadius: 20,
+										borderTopEndRadius: 20,
+									}}
+								>	
 									<View
 										style={{
 											width: "100%",
@@ -386,26 +408,27 @@ export default function Home({ navigation, route }) {
 										>
 											<PlaceText>{place}</PlaceText>
 											<TouchableOpacity
-											style={{
-												alignItems: "center",
-												justifyContent: "center",
-												backgroundColor: "lightgray",
-												paddingStart: 15,
-												paddingEnd: 15,
-												paddingTop: 5,
-												paddingBottom: 5,
-												borderRadius: 10,
-											}}
-											>
-											<Image
-												source={require("../assets/image/vector.png")}
 												style={{
-												width: 18,
-												height: 25,
+													alignItems: "center",
+													justifyContent: "center",
+													backgroundColor: isBoard ? "white":"lightgray",
+													paddingStart: 15,
+													paddingEnd: 15,
+													paddingTop: 5,
+													paddingBottom: 5,
+													borderRadius: 10,
 												}}
-											/>
+												onPress={()=>setIsBoard(!isBoard)}
+											>
+												<Image
+													source={require("../assets/image/vector.png")}
+													style={{
+													width: 18,
+													height: 25,
+													}}
+												/>
 											</TouchableOpacity>
-										</View>
+										</View>	
 										<Text style={{ width: "80%", marginTop: 15 }}>{desc}</Text>
 										<Image 
 											source={{uri: photo}}
@@ -421,20 +444,62 @@ export default function Home({ navigation, route }) {
 											<Text>{fac}</Text>
 										</View>
 									</View>
-								) : (
+								</ScrollView>
+							):(
+								<View
+									style={{
+										width: "100%",
+										height: "100%",
+										alignItems: "center",
+										backgroundColor: "white",
+										borderTopStartRadius: 20,
+										borderTopEndRadius: 20,
+									}}
+								>	
 									<View
 										style={{
-											width: "100%",
-											height: "100%",
-											alignItems: "center",
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between",
+										width: "90%",
+										marginTop: 20,
 										}}
 									>
-										
-									</View>
-								)
-							}
-							
-						</ScrollView>
+										<PlaceText>{place}</PlaceText>
+										<TouchableOpacity
+											style={{
+												alignItems: "center",
+												justifyContent: "center",
+												backgroundColor: isBoard ? "white":"lightgray",
+												paddingStart: 15,
+												paddingEnd: 15,
+												paddingTop: 5,
+												paddingBottom: 5,
+												borderRadius: 10,
+											}}
+											onPress={()=>setIsBoard(!isBoard)}
+										>
+											<Image
+												source={require("../assets/image/vector.png")}
+												style={{
+												width: 18,
+												height: 25,
+												}}
+											/>
+										</TouchableOpacity>
+									</View>	
+									<FlatList
+										showsVerticalScrollIndicator={false}
+										data={post}
+										renderItem={renderPost}
+										style={{
+											marginTop: 20,
+											width: "100%"
+										}}
+									/>
+								</View>
+							)
+						}
 					</Shadow>
 				</View>
 			) : (
@@ -460,7 +525,7 @@ export default function Home({ navigation, route }) {
 						paddingEnd: 10,
 					}}
 					>
-					<Text>움직인 거리 1.1km</Text>
+					<Text>움직인 거리 0.1km</Text>
 					</TouchableOpacity>
 				</Shadow>
 				<Shadow distance={5} offset={[3, 3]}>
