@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Start from "../screens/Start";
+import Login from "../screens/Login";
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
 import Mission from "../screens/Mission";
@@ -16,6 +17,13 @@ export default function MainNav() {
       <Stack.Screen
         name="Start"
         component={Start}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
         options={{
           headerShown: false,
         }}

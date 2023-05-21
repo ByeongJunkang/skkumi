@@ -41,7 +41,7 @@ export default function Start({navigation}){
                 <Button onPress={()=>navigation.navigate("Home")}>
                     <Text style={{color: "white", fontSize: 15}}>회원가입</Text>
                 </Button>
-                <Button onPress={()=>navigation.navigate("Home")}>
+                <Button onPress={()=>navigation.navigate("Login")}>
                     <Text style={{color: "white", fontSize: 15}}>로그인</Text>
                 </Button>
             </View>
