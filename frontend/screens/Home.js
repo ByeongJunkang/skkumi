@@ -18,6 +18,7 @@ import { PROVIDER_GOOGLE } from "react-native-maps/lib/ProviderConstants";
 import { Shadow } from "react-native-shadow-2";
 import { info } from "../info";
 import { post } from "../post";
+import { postCustom } from "../postCustom";
 import * as Location from "expo-location";
 import haversine from "haversine";
 
@@ -39,6 +40,7 @@ export default function Home({ navigation, route }) {
 	const [desc, setDesc] = useState(null);
 	const [photo, setPhoto] = useState(null);
 	const [fac, setFac] = useState(null);
+	const [isCustom, setIsCustom] = useState(false);
 
 	console.log("Navigation Input : ", navigation);
 	console.log("Route Input : ", route);
@@ -214,9 +216,9 @@ export default function Home({ navigation, route }) {
 			</MapView>
 		) : (
 			<MapView
-			style={{ width: "100%", height: "100%" }}
-			region={location}
-			provider={PROVIDER_GOOGLE}
+				style={{ width: "100%", height: "100%" }}
+				region={location}
+				provider={PROVIDER_GOOGLE}
 			>
 			<Marker //디도
 				coordinate={{
@@ -227,6 +229,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(0);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //제2공
@@ -238,6 +241,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(1);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //반관
@@ -249,6 +253,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(2);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //제1공
@@ -260,6 +265,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(3);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //산학관
@@ -271,6 +277,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(4);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //생명공학관
@@ -282,6 +289,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(5);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //의학관
@@ -293,6 +301,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(6);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //N센터
@@ -304,6 +313,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(7);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //약학관
@@ -315,6 +325,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(8);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
 			<Marker //학생회관
@@ -326,9 +337,10 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(9);
 				setIsBoard(false);
+				setIsCustom(false);
 				}}
 			/>
-			<Marker //학생회관
+			<Marker //Custom
 				coordinate={{
 				latitude: 37.294326,
 				longitude: 126.974876,
@@ -337,6 +349,7 @@ export default function Home({ navigation, route }) {
 				onPress={() => {
 				selectInfo(10);
 				setIsBoard(false);
+				setIsCustom(true);
 				}}
 			/>
 			</MapView>
@@ -535,7 +548,7 @@ export default function Home({ navigation, route }) {
 						</View>
 						<FlatList
 							showsVerticalScrollIndicator={false}
-							data={post}
+							data={isCustom ? postCustom : post}
 							renderItem={renderPost}
 							style={{
 								marginTop: 20,

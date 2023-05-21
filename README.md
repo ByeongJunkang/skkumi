@@ -1,13 +1,10 @@
 # skkumi
 
-## server ip : 3.220.127.236
+## 지도 기반 학교 안내 애플리케이션
 
-### [https://junjangsee.tistory.com/entry/aws-ec2-rds](https://junjangsee.tistory.com/entry/aws-ec2-rds)
-#### server에 접속 후 /home/ec2-user/skkumi/backend/build/libs 에 들어가서 java -jar backend-0.0.1-SNAPSHOT.jar 실행
-#### 이후 3.220.127.236:8080에 들어가면 실행된 것 확인 가능(추후 이러한 페이지들에 데이터베이스의 내용들을 return으로 받아 표시할 예정)
-
-### db Host : [database-1.ckymfzb0ajik.us-east-1.rds.amazonaws.com](http://database-1.ckymfzb0ajik.us-east-1.rds.amazonaws.com/)
-### db master id : admin
-### db master pw : qwer1234
-
-#test
+교내 지도 제공
+학교 걷기, 학교 건물 방문, 학식 인증 등 다양한 미션
+교내 장소에 대한 다양한 기본 정보, 꿀팁 획득 가능
+장소마다 게시판 존재
+자신이 원하는 장소에 핀을 꽂아 게시판 생성도 가능
+미션 수행에 따른 포인트 획득
