@@ -56,7 +56,7 @@ export default function Mission({ navigation }) {
 					borderRadius: 10,
 					marginTop: 50
 				}}
-				onPress={()=>navigation.naviate("Camera")}
+				onPress={()=>navigation.navigate("TakePhoto")}
 			>
 				<Text>인증하기</Text>
 			</TouchableOpacity>

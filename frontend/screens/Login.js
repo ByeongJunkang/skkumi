@@ -15,7 +15,7 @@ export default function Login({navigation}){
     useEffect(()=> {
         setTimeout(()=>{
             navigation.navigate("Home")
-        }, 3000)
+        }, 2000)
     },[loading])
     return(
         <View 

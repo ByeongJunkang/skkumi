@@ -8,7 +8,8 @@ import Mission from "../screens/Mission";
 import MissionMarathon from "../screens/MissionMarathon";
 import MissionSpace from "../screens/MissionSpace";
 import MissionFood from "../screens/MissionFood";
-import TakePhoto from "../screens/Camera";
+import TakePhoto from "../screens/TakePhoto";
+import Success from "../screens/Success";
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,13 @@ export default function MainNav() {
       <Stack.Screen
         name="TakePhoto"
         component={TakePhoto}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Success"
+        component={Success}
         options={{
           headerShown: false,
         }}
