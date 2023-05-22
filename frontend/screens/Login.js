@@ -8,14 +8,17 @@ const InfoInput = styled.TextInput`
     border-color: black;
     border-width: 2px;
     border-radius: 10px;
+    padding-left: 10px;
 `;
 
 export default function Login({navigation}){
     const [loading, setLoading] = useState(false)
     useEffect(()=> {
-        setTimeout(()=>{
-            navigation.navigate("Home")
-        }, 2000)
+        if(loading){
+            setTimeout(()=>{
+                navigation.navigate("Home")
+            }, 2000)
+        }
     },[loading])
     return(
         <View 
@@ -38,7 +41,9 @@ export default function Login({navigation}){
             </View>
             <View>
                 <Text>비밀번호</Text>
-                <InfoInput />
+                <InfoInput 
+                    secureTextEntry = {true}
+                />
             </View>
             {
                 loading ?
